@@ -22,4 +22,14 @@ public class Season {
     @OneToMany(mappedBy = "season")
     private List<Tournament> tournaments;
 
+    public Season(Long id, int year) {
+        this.id=id;
+        this.year=year;
+    }
+    public Season(int year) {
+        this.year=year;
+    }
+    public Season() {
+    }
+
 }

@@ -8,4 +8,5 @@ public class UserCreateRequest {
     private String username;
     private String password;
     private UserRole role;
+    private int age;
 }

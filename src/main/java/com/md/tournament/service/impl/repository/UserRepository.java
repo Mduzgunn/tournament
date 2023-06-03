@@ -1,4 +1,4 @@
-package com.md.tournament.repository;
+package com.md.tournament.service.impl.repository;
 
 import com.md.tournament.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

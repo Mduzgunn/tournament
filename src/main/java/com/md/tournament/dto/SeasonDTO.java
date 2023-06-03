@@ -13,4 +13,9 @@ public class SeasonDTO {
     private Long id;
     private int year;
     private List<TournamentDTO> tournaments;
+
+    public SeasonDTO(Long id, int year) {
+        this.id = id;
+        this.year = year;
+    }
 }

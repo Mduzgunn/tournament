@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Entity
@@ -15,15 +16,26 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String name;
+    @OneToOne
+    private User user;
 
     private int number;
-
-    private int age;
 
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
 
+    public Player(User user, int number) {
+        this.user = user;
+        this.number = number;
+    }
+
+    public Player(Long id, int number) {
+        this.id = id;
+        this.number = number;
+    }
+
+    public Player() {
+
+    }
 }

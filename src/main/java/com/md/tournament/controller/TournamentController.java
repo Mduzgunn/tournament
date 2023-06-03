@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tournaments")
+@CrossOrigin(origins = "*")
 public class TournamentController {
     private final TournamentService tournamentService;
 
@@ -28,7 +29,7 @@ public class TournamentController {
 
     @GetMapping
     public ResponseEntity<List<TournamentDTO>> getAllTournaments() {
-        List<TournamentDTO> tournamentDtoList = tournamentService.getAllTournaments();
+        List<TournamentDTO> tournamentDtoList = tournamentService.getAllTournamentDtoList();
         return ResponseEntity.ok(tournamentDtoList);
     }
 
@@ -38,15 +39,15 @@ public class TournamentController {
         return ResponseEntity.ok(tournamentDto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<TournamentDTO> updateTournament(@PathVariable Long id, @RequestBody TournamentUpdateRequest request) {
-        TournamentDTO updatedTournament = tournamentService.updateTournament(id, request);
+    @PutMapping
+    public ResponseEntity<TournamentDTO> updateTournament(@RequestBody TournamentUpdateRequest request) {
+        TournamentDTO updatedTournament = tournamentService.updateTournament(request);
         return ResponseEntity.ok(updatedTournament);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTournament(@PathVariable Long id) {
-        tournamentService.deleteTournament(id);
+        tournamentService.deleteTournamentById(id);
         return ResponseEntity.noContent().build();
     }
 }

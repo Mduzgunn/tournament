@@ -4,7 +4,6 @@ import com.md.tournament.dto.PlayerDTO;
 import com.md.tournament.dto.requests.PlayerCreateRequest;
 import com.md.tournament.dto.requests.PlayerUpdateRequest;
 import com.md.tournament.service.PlayerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/players")
+@CrossOrigin(origins = "*")
 public class PlayerController {
     private final PlayerService playerService;
 
@@ -28,7 +28,7 @@ public class PlayerController {
 
     @GetMapping
     public ResponseEntity<List<PlayerDTO>> getAllPlayers() {
-        List<PlayerDTO> playerDtoList = playerService.getAllPlayers();
+        List<PlayerDTO> playerDtoList = playerService.getAllPlayerDtoList();
         return ResponseEntity.ok(playerDtoList);
     }
 
@@ -38,15 +38,15 @@ public class PlayerController {
         return ResponseEntity.ok(playerDto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PlayerDTO> updatePlayer(@PathVariable Long id, @RequestBody PlayerUpdateRequest request) {
-        PlayerDTO updatedPlayer = playerService.updatePlayer(id, request);
+    @PutMapping
+    public ResponseEntity<PlayerDTO> updatePlayer(@RequestBody PlayerUpdateRequest request) {
+        PlayerDTO updatedPlayer = playerService.updatePlayer(request);
         return ResponseEntity.ok(updatedPlayer);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePlayer(@PathVariable Long id) {
-        playerService.deletePlayer(id);
+        playerService.deletePlayerById(id);
         return ResponseEntity.noContent().build();
     }
 }

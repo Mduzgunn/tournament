@@ -8,4 +8,6 @@ import java.util.List;
 public class TeamCreateRequest {
     private String name;
     private Long managerId;
+    private Long playerId;
+
 }

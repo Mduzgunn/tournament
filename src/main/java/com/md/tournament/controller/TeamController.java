@@ -4,8 +4,7 @@ import com.md.tournament.dto.TeamDTO;
 import com.md.tournament.dto.requests.TeamCreateRequest;
 import com.md.tournament.dto.requests.TeamUpdateRequest;
 import com.md.tournament.service.TeamService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/teams")
+@CrossOrigin(origins = "*")
 public class TeamController {
     private final TeamService teamService;
 
@@ -21,14 +21,13 @@ public class TeamController {
     }
 
     @PostMapping
-    public ResponseEntity<TeamDTO> createTeam(@RequestBody TeamCreateRequest request) {
-        TeamDTO createdTeam = teamService.createTeam(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdTeam);
+    public ResponseEntity<TeamDTO> createTeam(@Valid @RequestBody TeamCreateRequest createTeamRequest) {
+        return ResponseEntity.ok(teamService.createTeam(createTeamRequest));
     }
 
     @GetMapping
-    public ResponseEntity<List<TeamDTO>> getAllTeams() {
-        List<TeamDTO> teamDtoList = teamService.getAllTeams();
+    public ResponseEntity<List<TeamDTO>> getTeams() {
+        List<TeamDTO> teamDtoList = teamService.getAllTeamDtoList();
         return ResponseEntity.ok(teamDtoList);
     }
 
@@ -38,15 +37,14 @@ public class TeamController {
         return ResponseEntity.ok(teamDto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<TeamDTO> updateTeam(@PathVariable Long id, @RequestBody TeamUpdateRequest request) {
-        TeamDTO updatedTeam = teamService.updateTeam(id, request);
-        return ResponseEntity.ok(updatedTeam);
+    @PutMapping
+    public ResponseEntity<TeamDTO> updateTeam(@Valid @RequestBody TeamUpdateRequest updateTeamRequest) {
+        return ResponseEntity.ok(teamService.updateTeam(updateTeamRequest));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTeam(@PathVariable Long id) {
-        teamService.deleteTeam(id);
+        teamService.deleteTeamById(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -9,8 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PlayerDTO {
     private Long id;
-    private String name;
+    private UserDTO userId;
     private int number;
-    private int age;
-    private TeamDTO team;
+
+    public PlayerDTO(Long id, int number) {
+        this.id = id;
+        this.number = number;
+    }
 }

@@ -4,8 +4,7 @@ import lombok.Data;
 
 @Data
 public class PlayerCreateRequest {
-    private String name;
+    private Long userId;
     private int number;
-    private int age;
-    private Long teamId;
+
 }

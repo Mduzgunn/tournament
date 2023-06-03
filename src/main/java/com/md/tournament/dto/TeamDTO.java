@@ -1,5 +1,6 @@
 package com.md.tournament.dto;
 
+import com.md.tournament.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,4 +15,9 @@ public class TeamDTO {
     private String name;
     private UserDTO manager;
     private List<PlayerDTO> players;
+
+    public TeamDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

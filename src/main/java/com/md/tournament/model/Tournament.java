@@ -1,6 +1,9 @@
 package com.md.tournament.model;
 
+import com.md.tournament.enums.TournamentType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,13 +22,29 @@ public class Tournament {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private TournamentType type;
 
     @ManyToOne
     @JoinColumn(name = "season_id")
     private Season season;
 
     @OneToMany(mappedBy = "tournament")
-    private List<Match> matches;
+    private List<Match> matchList;
+
+    @OneToMany(mappedBy = "tournament")
+    private List<Team> teamList;
+
+
+    public Tournament(Long id, TournamentType type, Season season) {
+        this.id = id;
+        this.type = type;
+        this.season = season;
+    }
+    public Tournament(TournamentType type, Season season) {
+        this.type = type;
+        this.season = season;
+    }
+    public Tournament() {}
 
 }

@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/seasons")
+@CrossOrigin(origins = "*")
 public class SeasonController {
     private final SeasonService seasonService;
 
@@ -28,7 +29,7 @@ public class SeasonController {
 
     @GetMapping
     public ResponseEntity<List<SeasonDTO>> getAllSeasons() {
-        List<SeasonDTO> seasonDtoList = seasonService.getAllSeasons();
+        List<SeasonDTO> seasonDtoList = seasonService.getAllSeasonDtoList();
         return ResponseEntity.ok(seasonDtoList);
     }
 
@@ -38,14 +39,14 @@ public class SeasonController {
         return ResponseEntity.ok(seasonDto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<SeasonDTO> updateSeason(@PathVariable Long id, @RequestBody SeasonUpdateRequest request) {
-        SeasonDTO updatedSeason = seasonService.updateSeason(id, request);
+    @PutMapping
+    public ResponseEntity<SeasonDTO> updateSeason(@RequestBody SeasonUpdateRequest request) {
+        SeasonDTO updatedSeason = seasonService.updateSeason(request);
         return ResponseEntity.ok(updatedSeason);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSeason(@PathVariable Long id) {
-        return ResponseEntity.ok(seasonService.deleteSeason(id));
+        return ResponseEntity.ok(seasonService.deleteSeasonById(id));
     }
 }

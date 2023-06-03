@@ -1,5 +1,6 @@
 package com.md.tournament.dto;
 
+import com.md.tournament.model.Team;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,9 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MatchDTO {
     private Long id;
-    private TournamentDTO tournament;
     private TeamDTO homeTeam;
     private TeamDTO awayTeam;
     private int homeTeamScore;
     private int awayTeamScore;
+
+    public MatchDTO(Long id, int homeTeamScore, int awayTeamScore) {
+        this.id = id;
+        this.homeTeamScore = homeTeamScore;
+        this.awayTeamScore = awayTeamScore;
+    }
 }

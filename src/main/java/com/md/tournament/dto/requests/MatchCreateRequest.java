@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class MatchCreateRequest {
-    private Long tournamentId;
     private Long homeTeamId;
     private Long awayTeamId;
     private int homeTeamScore;

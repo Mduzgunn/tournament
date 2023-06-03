@@ -1,55 +1,71 @@
 package com.md.tournament.service.impl;
 
 import com.md.tournament.dto.UserDTO;
+import com.md.tournament.dto.converter.UserDtoConverter;
 import com.md.tournament.dto.requests.UserCreateRequest;
 import com.md.tournament.dto.requests.UserUpdateRequest;
-import com.md.tournament.exception.NotFoundException;
-import com.md.tournament.mapper.UserMapper;
+import com.md.tournament.exception.UserNotFoundException;
 import com.md.tournament.model.User;
-import com.md.tournament.repository.UserRepository;
+import com.md.tournament.service.impl.repository.UserRepository;
 import com.md.tournament.service.UserService;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
-    private UserMapper userMapper;
+    private UserDtoConverter userDtoConverter;
 
-    @Override
-    public List<UserDTO> getAllUsers() {
-        List<User> userList = userRepository.findAll();
-        return userMapper.userToUserDTOList(userList);
+    public UserServiceImpl(UserRepository userRepository, UserDtoConverter userDtoConverter) {
+        this.userRepository = userRepository;
+        this.userDtoConverter = userDtoConverter;
     }
 
+    protected User findUserById(Long id) {
+        return userRepository
+                .findById(id)
+                .orElseThrow(() -> new UserNotFoundException("user not found " + id));
+    }
     @Override
     public UserDTO getUserById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
-        return userMapper.userToUserDTO(user);
+        return userDtoConverter.convert(findUserById(id));
     }
 
-    @Override
-    public UserDTO createUser(UserCreateRequest createRequest) {
-        User user = userMapper.createUserRequestToUser(createRequest);
-        User savedUser = userRepository.save(user);
-        return userMapper.userToUserDTO(savedUser);
+    protected List<User> getAllUsers() {
+        return userRepository.findAll();
     }
-
     @Override
-    public UserDTO updateUser(Long id, UserUpdateRequest updateRequest) {
-        User existingUser = userMapper.updateUserRequestToUser(updateRequest);
-        User updatedUser = userRepository.save(existingUser);
-
-        return userMapper.userToUserDTO(updatedUser);
+    public List<UserDTO> getAllUserDtoList() {
+        return userDtoConverter.convertToUserDtoList(getAllUsers());
     }
-
     @Override
-    public void deleteUser(Long id) {
+    public String deleteUserById(Long id) {
+        getUserById(id);
         userRepository.deleteById(id);
+        return "User deleted successfully " + id;
     }
+    @Override
+    public UserDTO createUser(UserCreateRequest createUserRequest) {
+        User user = new User(
+                createUserRequest.getUsername(),
+                createUserRequest.getPassword(),
+                createUserRequest.getRole(),
+                createUserRequest.getAge()
 
+        );
+        return userDtoConverter.convert(userRepository.save(user));
+    }
+    @Override
+    public UserDTO updateUser(UserUpdateRequest updateUserRequest) {
+        User user = findUserById(updateUserRequest.getId());
+        User updateUser = new User(
+                user.getId(),
+                user.getUsername(),
+                updateUserRequest.getPassword(),
+                updateUserRequest.getRole()
+        );
+
+        return userDtoConverter.convert(userRepository.save(updateUser));
+    }
 }

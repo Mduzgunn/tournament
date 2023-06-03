@@ -1,52 +1,65 @@
 package com.md.tournament.service.impl;
 
 import com.md.tournament.dto.SeasonDTO;
+import com.md.tournament.dto.converter.SeasonDtoConverter;
 import com.md.tournament.dto.requests.SeasonCreateRequest;
 import com.md.tournament.dto.requests.SeasonUpdateRequest;
-import com.md.tournament.exception.NotFoundException;
-import com.md.tournament.mapper.SeasonMapper;
+import com.md.tournament.exception.SeasonNotFoundException;
 import com.md.tournament.model.Season;
-import com.md.tournament.repository.SeasonRepository;
+import com.md.tournament.service.impl.repository.SeasonRepository;
 import com.md.tournament.service.SeasonService;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class SeasonServiceImpl implements SeasonService {
-    private SeasonRepository seasonRepository;
-    private SeasonMapper seasonMapper;
+    private final SeasonRepository seasonRepository;
+    private final SeasonDtoConverter seasonDtoConverter;
 
-    @Override
-    public List<SeasonDTO> getAllSeasons() {
-        List<Season> seasonList = seasonRepository.findAll();
-        return seasonMapper.seasonToSeasonDTOList(seasonList);
+    public SeasonServiceImpl(SeasonRepository seasonRepository, SeasonDtoConverter seasonDtoConverter) {
+        this.seasonRepository = seasonRepository;
+        this.seasonDtoConverter = seasonDtoConverter;
     }
 
+    protected Season findSeasonById(Long id) {
+        return seasonRepository
+                .findById(id)
+                .orElseThrow(() -> new SeasonNotFoundException("Season not found " + id));
+    }
     @Override
     public SeasonDTO getSeasonById(Long id) {
-        Season season = seasonRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Season not found with id: " + id));
-        return seasonMapper.SeasonToSeasonDTO(season);
+        return seasonDtoConverter.convert(findSeasonById(id));
     }
 
-    @Override
-    public SeasonDTO createSeason(SeasonCreateRequest createRequest) {
-        Season season = seasonMapper.createSeasonRequestToSeason(createRequest);
-        return seasonMapper.SeasonToSeasonDTO(seasonRepository.save(season));
+    protected List<Season> getAllSeasons() {
+        return seasonRepository.findAll();
     }
-
     @Override
-    public SeasonDTO updateSeason(Long id, SeasonUpdateRequest updateRequest) {
-        Season existingSeason = seasonMapper.updateSeasonRequestToSeason(updateRequest);
-        return seasonMapper.SeasonToSeasonDTO(seasonRepository.save(existingSeason));
+    public List<SeasonDTO> getAllSeasonDtoList() {
+        return seasonDtoConverter.convertToSeasonDtoList(getAllSeasons());
     }
-
     @Override
-    public String deleteSeason(Long id) {
+    public String deleteSeasonById(Long id) {
+        getSeasonById(id);
         seasonRepository.deleteById(id);
-        return "actor deleted successfully " + id;
+        return "Season deleted successfully " + id;
+    }
+    @Override
+    public SeasonDTO createSeason(SeasonCreateRequest createSeasonRequest) {
+        Season season = new Season(
+                createSeasonRequest.getYear()
+        );
+        return seasonDtoConverter.convert(seasonRepository.save(season));
+    }
+    @Override
+    public SeasonDTO updateSeason(SeasonUpdateRequest updateSeasonRequest) {
+        Season season = findSeasonById(updateSeasonRequest.getId());
+        Season updatedSeason = new Season(
+                season.getId(),
+                updateSeasonRequest.getYear()
+        );
+
+        return seasonDtoConverter.convert(seasonRepository.save(updatedSeason));
     }
 }

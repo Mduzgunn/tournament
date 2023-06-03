@@ -1,5 +1,6 @@
 package com.md.tournament.dto.requests;
 
+import com.md.tournament.enums.TournamentType;
 import lombok.Data;
 
 import java.util.List;
@@ -7,6 +8,6 @@ import java.util.List;
 
 @Data
 public class TournamentCreateRequest {
-    private String type;
+    private TournamentType type;
     private Long seasonId;
 }

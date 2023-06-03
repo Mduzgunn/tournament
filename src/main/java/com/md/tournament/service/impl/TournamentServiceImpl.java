@@ -1,55 +1,73 @@
 package com.md.tournament.service.impl;
 
 import com.md.tournament.dto.TournamentDTO;
+import com.md.tournament.dto.converter.TournamentDtoConverter;
 import com.md.tournament.dto.requests.TournamentCreateRequest;
 import com.md.tournament.dto.requests.TournamentUpdateRequest;
-import com.md.tournament.exception.NotFoundException;
-import com.md.tournament.mapper.TournamentMapper;
+import com.md.tournament.exception.TournamentNotFoundException;
+import com.md.tournament.model.Season;
 import com.md.tournament.model.Tournament;
-import com.md.tournament.repository.TournamentRepository;
+import com.md.tournament.service.impl.repository.TournamentRepository;
 import com.md.tournament.service.TournamentService;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class TournamentServiceImpl implements TournamentService {
-    private TournamentRepository tournamentRepository;
-    private TournamentMapper tournamentMapper;
+    private final TournamentRepository tournamentRepository;
+    private final TournamentDtoConverter tournamentDtoConverter;
+    private final SeasonServiceImpl seasonService;
 
-    @Override
-    public List<TournamentDTO> getAllTournaments() {
-        List<Tournament> tournamentList = tournamentRepository.findAll();
-        return tournamentMapper.tournamentToTournamentDTOList(tournamentList);
+    public TournamentServiceImpl(TournamentRepository tournamentRepository,
+                                 TournamentDtoConverter tournamentDtoConverter, SeasonServiceImpl seasonService) {
+        this.tournamentRepository = tournamentRepository;
+        this.tournamentDtoConverter = tournamentDtoConverter;
+        this.seasonService = seasonService;
     }
 
+    protected Tournament findTournamentById(Long id) {
+        return tournamentRepository
+                .findById(id)
+                .orElseThrow(() -> new TournamentNotFoundException("Tournament not found " + id));
+    }
     @Override
     public TournamentDTO getTournamentById(Long id) {
-        Tournament tournament = tournamentRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Tournament not found with id: " + id));
-        return tournamentMapper.tournamentToTournamentDTO(tournament);
+        return tournamentDtoConverter.convert(findTournamentById(id));
     }
 
-    @Override
-    public TournamentDTO createTournament(TournamentCreateRequest createRequest) {
-        Tournament tournament = tournamentMapper.createTournamentRequestToTournament(createRequest);
-        Tournament savedTournament = tournamentRepository.save(tournament);
-
-        return tournamentMapper.tournamentToTournamentDTO(savedTournament);
+    protected List<Tournament> getAllTournaments() {
+        return tournamentRepository.findAll();
     }
-
     @Override
-    public TournamentDTO updateTournament(Long id, TournamentUpdateRequest updateRequest) {
-        Tournament existingTournament = tournamentMapper.updateTournamentRequestToTournament(updateRequest);
-        Tournament updatedTournament = tournamentRepository.save(existingTournament);
-
-        return tournamentMapper.tournamentToTournamentDTO(updatedTournament);
+    public List<TournamentDTO> getAllTournamentDtoList() {
+        return tournamentDtoConverter.convertToTournamentDtoList(getAllTournaments());
     }
-
     @Override
-    public void deleteTournament(Long id) {
+    public String deleteTournamentById(Long id) {
+        getTournamentById(id);
         tournamentRepository.deleteById(id);
+        return "Tournament deleted successfully " + id;
+    }
+    @Override
+    public TournamentDTO createTournament(TournamentCreateRequest createTournamentRequest) {
+        Season season = seasonService.findSeasonById(createTournamentRequest.getSeasonId());
+        Tournament tournament = new Tournament(
+                createTournamentRequest.getType(),
+                season
+        );
+        return tournamentDtoConverter.convert(tournamentRepository.save(tournament));
+    }
+    @Override
+    public TournamentDTO updateTournament(TournamentUpdateRequest updateTournamentRequest) {
+        Tournament tournament = findTournamentById(updateTournamentRequest.getId());
+        Season season = seasonService.findSeasonById(updateTournamentRequest.getSeasonId());
+        Tournament updatedTournament = new Tournament(
+                tournament.getId(),
+                updateTournamentRequest.getType(),
+                season
+        );
+
+        return tournamentDtoConverter.convert(tournamentRepository.save(updatedTournament));
     }
 }
