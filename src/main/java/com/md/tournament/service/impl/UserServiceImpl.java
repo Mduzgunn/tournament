@@ -8,14 +8,18 @@ import com.md.tournament.exception.UserNotFoundException;
 import com.md.tournament.model.User;
 import com.md.tournament.repository.UserRepository;
 import com.md.tournament.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.CharBuffer;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private UserDtoConverter userDtoConverter;
+    private PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, UserDtoConverter userDtoConverter) {
         this.userRepository = userRepository;
@@ -25,7 +29,7 @@ public class UserServiceImpl implements UserService {
     protected User findUserById(Long id) {
         return userRepository
                 .findById(id)
-                .orElseThrow(() -> new UserNotFoundException("user not found " + id));
+                .orElseThrow(() -> new UserNotFoundException("user not found " + id, HttpStatus.NOT_FOUND));
     }
     @Override
     public UserDTO getUserById(Long id) {

@@ -1,12 +1,13 @@
 package com.md.tournament.exception;
 
+
 import org.springframework.http.HttpStatus;
 
-public class UserNotFoundException extends RuntimeException {
+public class CommonException extends RuntimeException {
 
     private final HttpStatus status;
 
-    public UserNotFoundException(String message, HttpStatus status) {
+    public CommonException(String message, HttpStatus status) {
         super(message);
         this.status = status;
     }

@@ -17,6 +17,7 @@ public class PlayerDtoConverter {
                 new UserDTO(
                         from.getUser().getId(),
                         from.getUser().getUsername(),
+                        from.getUser().getPassword(),
                         from.getUser().getAge(),
                         from.getUser().getRole()
                         ),
