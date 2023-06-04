@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,10 +31,10 @@ public class Tournament {
     private Season season;
 
     @OneToMany(mappedBy = "tournament")
-    private List<Match> matchList;
+    private List<Match> matchList = new ArrayList<>();
 
     @OneToMany(mappedBy = "tournament")
-    private List<Team> teamList;
+    private List<Team> teamList = new ArrayList<>();
 
 
     public Tournament(Long id, TournamentType type, Season season) {

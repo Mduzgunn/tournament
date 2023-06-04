@@ -8,4 +8,5 @@ public class MatchCreateRequest {
     private Long awayTeamId;
     private int homeTeamScore;
     private int awayTeamScore;
+    private Long tournamentId;
 }

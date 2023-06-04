@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,7 @@ public class Season {
     private int year;
 
     @OneToMany(mappedBy = "season")
-    private List<Tournament> tournaments;
+    private List<Tournament> tournaments = new ArrayList<>();
 
     public Season(Long id, int year) {
         this.id=id;

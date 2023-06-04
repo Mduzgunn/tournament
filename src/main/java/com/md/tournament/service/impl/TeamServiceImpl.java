@@ -4,29 +4,31 @@ import com.md.tournament.dto.TeamDTO;
 import com.md.tournament.dto.converter.TeamDtoConverter;
 import com.md.tournament.dto.requests.TeamCreateRequest;
 import com.md.tournament.dto.requests.TeamUpdateRequest;
+import com.md.tournament.exception.TeamAlreadyExistsException;
 import com.md.tournament.exception.TeamNotFoundException;
-import com.md.tournament.model.Player;
+import com.md.tournament.exception.UserAlreadyExistsException;
 import com.md.tournament.model.Team;
+import com.md.tournament.model.Tournament;
 import com.md.tournament.model.User;
 import com.md.tournament.service.TeamService;
-import com.md.tournament.service.impl.repository.TeamRepository;
+import com.md.tournament.repository.TeamRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
 public class TeamServiceImpl implements TeamService {
     private TeamRepository teamRepository;
     private TeamDtoConverter teamDtoConverter;
-    private PlayerServiceImpl playerService;
     private UserServiceImpl userService;
+    private TournamentServiceImpl tournamentService;
 
-    public TeamServiceImpl(TeamRepository teamRepository, TeamDtoConverter teamDtoConverter, PlayerServiceImpl playerService, UserServiceImpl userService) {
+    public TeamServiceImpl(TeamRepository teamRepository, TeamDtoConverter teamDtoConverter
+            , UserServiceImpl userService, TournamentServiceImpl tournamentService) {
         this.teamRepository = teamRepository;
         this.teamDtoConverter = teamDtoConverter;
-        this.playerService = playerService;
         this.userService = userService;
+        this.tournamentService = tournamentService;
     }
 
     protected Team findTeamById(Long id) {
@@ -54,12 +56,20 @@ public class TeamServiceImpl implements TeamService {
     }
     @Override
     public TeamDTO createTeam(TeamCreateRequest createTeamRequest) {
-        Player player = playerService.findPlayerById(createTeamRequest.getManagerId());
-        User user = userService.findUserById(createTeamRequest.getManagerId());
+        User manager = userService.findUserById(createTeamRequest.getManagerId());
+        Tournament tournament = tournamentService.findTournamentById(createTeamRequest.getTournamentId());
+
+        if (teamRepository.existsByNameAndTournament(createTeamRequest.getName(), tournament)) {
+            throw new TeamAlreadyExistsException("Takım ismi turnuva içerisinde mevcut lütfen farklı takım ismi seçiniz.");
+        }
+        if (teamRepository.existsByUserAndTournament(manager, tournament)) {
+            throw new UserAlreadyExistsException("Belirtilen turnuva içerisinde kullanıcı başka takımda sorumlu görünüyor.");
+        }
+
         Team team = new Team(
                 createTeamRequest.getName(),
-                user,
-                Collections.singletonList(player)
+                manager,
+                tournament
         );
         return teamDtoConverter.convert(teamRepository.save(team));
     }

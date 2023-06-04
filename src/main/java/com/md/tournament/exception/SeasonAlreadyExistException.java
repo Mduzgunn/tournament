@@ -2,10 +2,9 @@ package com.md.tournament.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class TeamAlreadyExistsException extends RuntimeException {
-    public TeamAlreadyExistsException(String message) {
+public class SeasonAlreadyExistException extends RuntimeException {
+    public SeasonAlreadyExistException(String message) {
         super(message);
     }
 

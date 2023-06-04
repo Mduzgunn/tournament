@@ -4,10 +4,11 @@ import com.md.tournament.dto.TournamentDTO;
 import com.md.tournament.dto.converter.TournamentDtoConverter;
 import com.md.tournament.dto.requests.TournamentCreateRequest;
 import com.md.tournament.dto.requests.TournamentUpdateRequest;
+import com.md.tournament.exception.TournamentAlreadyExistException;
 import com.md.tournament.exception.TournamentNotFoundException;
 import com.md.tournament.model.Season;
 import com.md.tournament.model.Tournament;
-import com.md.tournament.service.impl.repository.TournamentRepository;
+import com.md.tournament.repository.TournamentRepository;
 import com.md.tournament.service.TournamentService;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,11 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public TournamentDTO createTournament(TournamentCreateRequest createTournamentRequest) {
         Season season = seasonService.findSeasonById(createTournamentRequest.getSeasonId());
+
+        if (tournamentRepository.existsByTypeAndSeason(createTournamentRequest.getType(), season)) {
+            throw new TournamentAlreadyExistException("Sezon içerisinde seçilen turnuva tipinde bir turnuva hali hazırda devam etmekte.");
+        }
+
         Tournament tournament = new Tournament(
                 createTournamentRequest.getType(),
                 season

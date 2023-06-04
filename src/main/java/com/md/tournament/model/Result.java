@@ -7,9 +7,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "results")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Result {
 
     @Id
@@ -31,9 +36,6 @@ public class Result {
     @ManyToOne
     @JoinColumn(name = "id_team")
     private Team team;
-
-    public Result() {
-    }
 
     public Result(Integer played, Integer win, Integer draft, Integer loss, Season season, Team team) {
         this.played = played;

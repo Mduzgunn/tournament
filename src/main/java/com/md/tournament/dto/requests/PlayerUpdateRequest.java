@@ -6,4 +6,5 @@ import lombok.Data;
 public class PlayerUpdateRequest {
     private Long id;
     private int number;
+    private Long teamId;
 }

@@ -11,6 +11,7 @@ import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,12 +25,13 @@ public class Team {
 
     private String name;
 
-    @OneToOne(mappedBy = "managedTeam")
-    @JoinColumn
-    private User manager;
+    private int score = 0;
+
+    @OneToOne
+    private User user;
 
     @OneToMany(mappedBy = "team")
-    private List<Player> players;
+    private List<Player> players = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")
@@ -38,14 +40,19 @@ public class Team {
     public Team(Long id, String name, User user) {
         this.id=id;
         this.name=name;
-        this.manager=user;
+        this.user=user;
     }
-    public Team(String name, User user, List<Player>  players) {
+    public Team(String name, User user, List<Player> players) {
         this.name=name;
-        this.manager=user;
+        this.user=user;
         this.players=players;
     }
-
+    public Team(String name, User manager, Tournament tournament) {
+        this.name=name;
+        this.user=manager;
+        this.tournament=tournament;
+    }
     public Team() {
     }
+
 }

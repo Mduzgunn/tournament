@@ -6,7 +6,7 @@ import com.md.tournament.dto.requests.UserCreateRequest;
 import com.md.tournament.dto.requests.UserUpdateRequest;
 import com.md.tournament.exception.UserNotFoundException;
 import com.md.tournament.model.User;
-import com.md.tournament.service.impl.repository.UserRepository;
+import com.md.tournament.repository.UserRepository;
 import com.md.tournament.service.UserService;
 import org.springframework.stereotype.Service;
 

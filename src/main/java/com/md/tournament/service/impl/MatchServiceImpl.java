@@ -7,7 +7,7 @@ import com.md.tournament.dto.requests.MatchUpdateRequest;
 import com.md.tournament.exception.MatchNotFoundException;
 import com.md.tournament.model.Match;
 import com.md.tournament.model.Team;
-import com.md.tournament.service.impl.repository.MatchRepository;
+import com.md.tournament.repository.MatchRepository;
 import com.md.tournament.service.MatchService;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +18,13 @@ public class MatchServiceImpl implements MatchService {
     private final MatchRepository matchRepository;
     private final MatchDtoConverter matchDtoConverter;
     private final TeamServiceImpl teamService;
+    private final ResultServiceImpl resultService;
 
-    public MatchServiceImpl(MatchRepository matchRepository, MatchDtoConverter matchDtoConverter, TeamServiceImpl teamService) {
+    public MatchServiceImpl(MatchRepository matchRepository, MatchDtoConverter matchDtoConverter, TeamServiceImpl teamService, ResultServiceImpl resultService) {
         this.matchRepository = matchRepository;
         this.matchDtoConverter = matchDtoConverter;
         this.teamService = teamService;
+        this.resultService = resultService;
     }
 
     protected Match findMatchById(Long id) {
@@ -46,11 +48,12 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public String deleteMatchById(Long id) {
-        getMatchById(id);
-        matchRepository.deleteById(id);
+    public String deleteMatchById(Long id) throws MatchNotFoundException {
+        Match match = findMatchById(id);
+        matchRepository.delete(match);
         return "Match deleted successfully " + id;
     }
+
     @Override
     public MatchDTO createMatch(MatchCreateRequest createMatchRequest) {
         Team homeTeam = teamService.findTeamById(createMatchRequest.getHomeTeamId());
@@ -67,14 +70,21 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public MatchDTO updateMatch(MatchUpdateRequest updateMatchRequest) {
         Match match = findMatchById(updateMatchRequest.getId());
+        Team homeTeam = teamService.findTeamById(updateMatchRequest.getHomeTeamId());
+        Team awayTeam = teamService.findTeamById(updateMatchRequest.getAwayTeamId());
+
         Match updateMatch = new Match(
                 match.getId(),
                 updateMatchRequest.getHomeTeamScore(),
                 updateMatchRequest.getAwayTeamScore()
         );
+        // Recalculate the points for both teams if the scores were changed
+        if (awayTeam.getScore() != updateMatchRequest.getAwayTeamScore()
+                || homeTeam.getScore() != updateMatchRequest.getHomeTeamScore()) {
+            resultService.calculate(match, true);
+        }
 
         return matchDtoConverter.convert(matchRepository.save(updateMatch));
     }
-
 
 }

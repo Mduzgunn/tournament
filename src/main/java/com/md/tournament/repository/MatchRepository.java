@@ -1,4 +1,4 @@
-package com.md.tournament.service.impl.repository;
+package com.md.tournament.repository;
 
 import com.md.tournament.model.Match;
 import org.springframework.data.jpa.repository.JpaRepository;

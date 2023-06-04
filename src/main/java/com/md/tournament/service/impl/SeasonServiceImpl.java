@@ -4,9 +4,10 @@ import com.md.tournament.dto.SeasonDTO;
 import com.md.tournament.dto.converter.SeasonDtoConverter;
 import com.md.tournament.dto.requests.SeasonCreateRequest;
 import com.md.tournament.dto.requests.SeasonUpdateRequest;
+import com.md.tournament.exception.SeasonAlreadyExistException;
 import com.md.tournament.exception.SeasonNotFoundException;
 import com.md.tournament.model.Season;
-import com.md.tournament.service.impl.repository.SeasonRepository;
+import com.md.tournament.repository.SeasonRepository;
 import com.md.tournament.service.SeasonService;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +48,9 @@ public class SeasonServiceImpl implements SeasonService {
     }
     @Override
     public SeasonDTO createSeason(SeasonCreateRequest createSeasonRequest) {
+        if (seasonRepository.existsByYear(createSeasonRequest.getYear())) {
+            throw new SeasonAlreadyExistException(createSeasonRequest.getYear() + " Yılı sezonu zaten mevcut.");
+        }
         Season season = new Season(
                 createSeasonRequest.getYear()
         );

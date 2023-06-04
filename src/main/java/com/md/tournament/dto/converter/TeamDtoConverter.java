@@ -5,6 +5,7 @@ import com.md.tournament.dto.TeamDTO;
 import com.md.tournament.dto.UserDTO;
 import com.md.tournament.model.Player;
 import com.md.tournament.model.Team;
+import com.md.tournament.model.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,10 +17,10 @@ public class TeamDtoConverter {
         return new TeamDTO(
                 from.getId(),
                 from.getName(),
-                new UserDTO(from.getManager().getId(),
-                        from.getManager().getUsername(),
-                        from.getManager().getAge(),
-                        from.getManager().getRole()
+                new UserDTO(from.getUser().getId(),
+                        from.getUser().getUsername(),
+                        from.getUser().getAge(),
+                        from.getUser().getRole()
                 ),
                 getPlayerList(from.getPlayers())
         );
@@ -29,7 +30,13 @@ public class TeamDtoConverter {
         return players.stream().map(
                 p -> new PlayerDTO(
                         p.getId(),
-                        p.getNumber()
+                        p.getNumber(),
+                        new UserDTO(
+                                p.getUser().getId(),
+                                p.getUser().getUsername(),
+                                p.getUser().getAge(),
+                                p.getUser().getRole()
+                                )
                 )
         ).collect(Collectors.toList());
     }

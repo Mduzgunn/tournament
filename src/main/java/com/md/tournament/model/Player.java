@@ -25,17 +25,23 @@ public class Player {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    public Player(User user, int number) {
+    public Player(Long id, User user, int number, Team team) {
+        this.id = id;
         this.user = user;
         this.number = number;
+        this.team = team;
     }
-
-    public Player(Long id, int number) {
+    public Player(User user, int number, Team team) {
+        this.user = user;
+        this.number = number;
+        this.team = team;
+    }
+    public Player(Long id, int number,Team team) {
         this.id = id;
         this.number = number;
+        this.team = team;
     }
-
     public Player() {
-
     }
+
 }

@@ -1,6 +1,7 @@
 package com.md.tournament.dto.converter;
 
 import com.md.tournament.dto.PlayerDTO;
+import com.md.tournament.dto.TeamDTO;
 import com.md.tournament.dto.UserDTO;
 import com.md.tournament.model.Player;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,10 @@ public class PlayerDtoConverter {
                         from.getUser().getAge(),
                         from.getUser().getRole()
                         ),
+                new TeamDTO(
+                        from.getTeam().getId(),
+                        from.getTeam().getName()
+                ),
                 from.getNumber()
         );
     }
