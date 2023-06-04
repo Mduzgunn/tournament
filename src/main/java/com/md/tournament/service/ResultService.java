@@ -8,7 +8,6 @@ import com.md.tournament.model.Result;
 import java.util.List;
 
 public interface ResultService {
-
     public List<Result> getAll();
     public Result get(Long id);
     public Result create(ResultDTO resultForm);
