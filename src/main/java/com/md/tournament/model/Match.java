@@ -34,11 +34,9 @@ public class Match {
 
     private int awayTeamScore;
 
-    public Match(Team homeTeam, Team awayTeam, int homeTeamScore, int awayTeamScore) {
+    public Match(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
-        this.homeTeamScore = homeTeamScore;
-        this.awayTeamScore = awayTeamScore;
     }
     public Match(Long id, int homeTeamScore, int awayTeamScore) {
         this.id = id;
@@ -47,6 +45,5 @@ public class Match {
     }
     public Match() {
     }
-
 
 }

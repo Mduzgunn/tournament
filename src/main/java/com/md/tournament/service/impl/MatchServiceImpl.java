@@ -60,9 +60,7 @@ public class MatchServiceImpl implements MatchService {
         Team awayTeam = teamService.findTeamById(createMatchRequest.getAwayTeamId());
         Match match = new Match(
                 homeTeam,
-                awayTeam,
-                createMatchRequest.getHomeTeamScore(),
-                createMatchRequest.getAwayTeamScore()
+                awayTeam
         );
         return matchDtoConverter.convert(matchRepository.save(match));
     }
