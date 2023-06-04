@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/matches")
+@RequestMapping("/v1/matches")
 @CrossOrigin(origins = "*")
 public class MatchController {
     private final MatchService matchService;

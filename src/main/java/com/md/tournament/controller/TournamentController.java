@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tournaments")
+@RequestMapping("/v1/tournaments")
 @CrossOrigin(origins = "*")
 public class TournamentController {
     private final TournamentService tournamentService;

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/players")
+@RequestMapping("/v1/players")
 @CrossOrigin(origins = "*")
 public class PlayerController {
     private final PlayerService playerService;

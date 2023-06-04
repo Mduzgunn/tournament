@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/seasons")
+@RequestMapping("/v1/seasons")
 @CrossOrigin(origins = "*")
 public class SeasonController {
     private final SeasonService seasonService;
