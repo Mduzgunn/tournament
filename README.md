@@ -108,4 +108,5 @@ http://localhost:8080/swagger-ui/index.html adresinden swagger'a erişilebilir.
 ![](src/main/resources/static/images/swagger.PNG "swagger")
 
 ### 6.4. Frontend
+http://localhost:8081/ adresinden frontend uygulamasına ulaşılabilir.
 ![](src/main/resources/static/images/frontend.PNG "react")
