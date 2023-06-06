@@ -23,6 +23,14 @@ public class User {
     @OneToOne
     private Team managedTeam;
 
+    public User(String username, String password, String email, UserRole role, int age) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.age = age;
+    }
+
     public User(String username, String password, UserRole role, int age) {
         this.username = username;
         this.password = password;

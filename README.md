@@ -102,3 +102,10 @@ NORMAL_USER için -> kullanıcı adı : user, şifre : password
 POST, PUT, DELETE gibi istekler için SYSTEM_ADMIN rolunde olmak gerekiyor.
 ![](src/main/resources/static/images/postman.PNG "postman")
 ![](src/main/resources/static/images/auth-postman.PNG "postman")
+
+### 6.4. Swagger
+http://localhost:8080/swagger-ui/index.html adresinden swagger'a erişilebilir.
+![](src/main/resources/static/images/swagger.PNG "swagger")
+
+### 6.4. Frontend
+![](src/main/resources/static/images/frontend.PNG "react")

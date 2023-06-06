@@ -13,6 +13,7 @@ public class UserDtoConverter {
         return new UserDTO(
                 from.getId(),
                 from.getUsername(),
+                from.getEmail(),
                 from.getPassword(),
                 from.getAge(),
                 from.getRole()

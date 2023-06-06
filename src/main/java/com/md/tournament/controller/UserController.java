@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/users")
+@CrossOrigin("*")
 public class UserController {
     private final UserService userService;
 
@@ -20,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserCreateRequest createUserRequest) {
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserCreateRequest createUserRequest) {
         return ResponseEntity.ok(userService.createUser(createUserRequest));
     }
 

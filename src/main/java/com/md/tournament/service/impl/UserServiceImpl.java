@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
         User user = new User(
                 createUserRequest.getUsername(),
                 createUserRequest.getPassword(),
+                createUserRequest.getEmail(),
                 createUserRequest.getRole(),
                 createUserRequest.getAge()
 

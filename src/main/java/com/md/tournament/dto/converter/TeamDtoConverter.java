@@ -18,6 +18,7 @@ public class TeamDtoConverter {
                 from.getName(),
                 new UserDTO(from.getUser().getId(),
                         from.getUser().getUsername(),
+                        from.getUser().getEmail(),
                         from.getUser().getPassword(),
                         from.getUser().getAge(),
                         from.getUser().getRole()
@@ -34,6 +35,7 @@ public class TeamDtoConverter {
                         new UserDTO(
                                 p.getUser().getId(),
                                 p.getUser().getUsername(),
+                                p.getUser().getEmail(),
                                 p.getUser().getPassword(),
                                 p.getUser().getAge(),
                                 p.getUser().getRole()
