@@ -4,7 +4,6 @@ import com.md.tournament.dto.MatchDTO;
 import com.md.tournament.dto.requests.MatchCreateRequest;
 import com.md.tournament.dto.requests.MatchUpdateRequest;
 import com.md.tournament.exception.MatchNotFoundException;
-import com.md.tournament.model.Match;
 
 import java.util.List;
 

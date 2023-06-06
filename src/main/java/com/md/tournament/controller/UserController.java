@@ -4,10 +4,10 @@ import com.md.tournament.dto.UserDTO;
 import com.md.tournament.dto.requests.UserCreateRequest;
 import com.md.tournament.dto.requests.UserUpdateRequest;
 import com.md.tournament.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController

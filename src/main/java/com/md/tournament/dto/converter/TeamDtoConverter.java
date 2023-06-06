@@ -5,7 +5,6 @@ import com.md.tournament.dto.TeamDTO;
 import com.md.tournament.dto.UserDTO;
 import com.md.tournament.model.Player;
 import com.md.tournament.model.Team;
-import com.md.tournament.model.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

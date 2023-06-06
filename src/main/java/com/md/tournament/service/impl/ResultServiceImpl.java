@@ -6,7 +6,6 @@ import com.md.tournament.exception.ResultNotFoundException;
 import com.md.tournament.model.Match;
 import com.md.tournament.model.Result;
 import com.md.tournament.repository.ResultRepository;
-import com.md.tournament.repository.TeamRepository;
 import com.md.tournament.service.ResultService;
 import org.springframework.stereotype.Service;
 

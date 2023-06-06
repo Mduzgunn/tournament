@@ -1,17 +1,9 @@
 package com.md.tournament.model;
 
 import com.md.tournament.enums.UserRole;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-
+import javax.persistence.*;
 @Entity
 @Getter
 @Setter
@@ -23,6 +15,7 @@ public class User {
     private Long id;
     private String username;
     private String password;
+    private String email;
     private int age;
     @Enumerated(EnumType.STRING)
     private UserRole role;
@@ -46,4 +39,11 @@ public class User {
 
     public User() {
     }
+
+    public User(String email, String username, String password) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
+
 }

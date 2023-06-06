@@ -4,10 +4,10 @@ import com.md.tournament.dto.TeamDTO;
 import com.md.tournament.dto.requests.TeamCreateRequest;
 import com.md.tournament.dto.requests.TeamUpdateRequest;
 import com.md.tournament.service.TeamService;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController

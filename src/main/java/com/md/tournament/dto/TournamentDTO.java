@@ -1,8 +1,6 @@
 package com.md.tournament.dto;
 
 import com.md.tournament.enums.TournamentType;
-import com.md.tournament.model.Match;
-import com.md.tournament.model.Team;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

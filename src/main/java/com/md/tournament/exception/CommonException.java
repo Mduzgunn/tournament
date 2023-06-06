@@ -3,7 +3,7 @@ package com.md.tournament.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class CommonException extends RuntimeException {
+public class CommonException extends IllegalArgumentException  {
 
     private final HttpStatus status;
 
