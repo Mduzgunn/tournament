@@ -88,14 +88,24 @@ Bu yazılım ürünleri ve araçlar, projenin işlevselliğini sağlamak ve geli
 ### 5.2. Mimar Katman Görünümü
 ![](src/main/resources/static/images/mimari-katman-gorunum.PNG "mimari")
 
-## 6. Görseller
-### 6.1. UML
+## 6. Teknolojiler (Backend ve Frontend)
+* Java 11
+* Spring Boot
+* PostgreSQL
+* Spring Data JPA
+* Swagger
+* Spring Security
+* Docker
+* React
+
+## 7. Görseller
+### 7.1. UML
 ![](src/main/resources/static/images/UML.PNG "uml")
 
-### 6.2. Uygulama akışı
+### 7.2. Uygulama akışı
 ![](src/main/resources/static/images/tournamentAppFlow.PNG "Uygulama akışı")
 
-### 6.3. Postman örneği
+### 7.3. Postman örneği
 SYSTEM_ADMIN için -> kullanıcı adı : admin, şifre : password
 NORMAL_USER için -> kullanıcı adı : user, şifre : password
 
@@ -103,10 +113,10 @@ POST, PUT, DELETE gibi istekler için SYSTEM_ADMIN rolunde olmak gerekiyor.
 ![](src/main/resources/static/images/postman.PNG "postman")
 ![](src/main/resources/static/images/auth-postman.PNG "postman")
 
-### 6.4. Swagger
+### 7.4. Swagger
 http://localhost:8080/swagger-ui/index.html adresinden swagger'a erişilebilir.
 ![](src/main/resources/static/images/swagger.PNG "swagger")
 
-### 6.4. Frontend
+### 7.5. Frontend
 http://localhost:8081/ adresinden frontend uygulamasına ulaşılabilir.
 ![](src/main/resources/static/images/frontend.PNG "react")
